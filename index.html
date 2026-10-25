@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="./files/tailwind.css">
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./files/css2" rel="stylesheet">
+    
+    
+    <link href="./files/fonts.css" rel="stylesheet">
     
     <!-- Phosphor Icons -->
     <link rel="stylesheet" type="text/css" href="./files/style.css"><link rel="stylesheet" type="text/css" href="./files/style(1).css"><link rel="stylesheet" type="text/css" href="./files/style(2).css"><link rel="stylesheet" type="text/css" href="./files/style(3).css"><link rel="stylesheet" type="text/css" href="./files/style(4).css"><link rel="stylesheet" type="text/css" href="./files/style(5).css">
@@ -544,9 +544,9 @@
             </div>
 
             <!-- Form -->
-            <form class="bg-sand-50 p-8 rounded-2xl border border-sand-300 shadow-sm space-y-6" method="POST" name="b2b" onsubmit="handleFormSubmit(event)">
-                <input type="hidden" name="form-name" value="b2b">
-                <p style="position:absolute;left:-9999px"><label>Non compilare <input name="bot-field"></label></p>
+            <form class="bg-sand-50 p-8 rounded-2xl border border-sand-300 shadow-sm space-y-6" method="POST" action="https://formsubmit.co/commerciale@gadgetart.it" accept-charset="UTF-8" onsubmit="handleFormSubmit(event)"><input type="hidden" name="_next" value="https://b2b.gadgetart.it/grazie.html"><input type="hidden" name="_subject" value="Richiesta B2B dal sito b2b.gadgetart.it"><input type="hidden" name="_cc" value="marco.salmi@myindustries.it"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false">
+                
+                <p style="position:absolute;left:-9999px"><label>Non compilare <input name="_honey" tabindex="-1" autocomplete="off"></label></p>
                 <div class="grid sm:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Nome e Cognome *</label>
@@ -588,7 +588,7 @@
                 <div class="flex items-center gap-3">
                     <input type="checkbox" id="privacy" name="privacy" value="si" required="" class="rounded border-sand-300 text-terracotta-800 focus:ring-terracotta-800">
                     <label for="privacy" class="text-xs text-slate-600">
-                        Acconsento al trattamento dei dati personali per la gestione della richiesta B2B (Privacy Policy).
+                        Ho letto l’<a href="privacy.html" target="_blank" rel="noopener" class="underline">informativa privacy</a> e acconsento al trattamento dei dati per la gestione della richiesta B2B.
                     </label>
                 </div>
 
@@ -648,9 +648,9 @@
             <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
                 <p>© 2026 GadgetArt</p>
                 <div class="flex gap-4">
-                    <a href="https://b2b.gadgetart.it/#" class="hover:underline">Privacy Policy</a>
-                    <a href="https://b2b.gadgetart.it/#" class="hover:underline">Cookie Policy</a>
-                    <a href="https://b2b.gadgetart.it/#" class="hover:underline">Note Legali</a>
+                    <a href="privacy.html" class="hover:underline">Privacy Policy</a>
+                    <a href="privacy.html#cookie" class="hover:underline">Cookie Policy</a>
+                    <a href="privacy.html#note-legali" class="hover:underline">Note Legali</a>
                 </div>
             </div>
         </div>
@@ -745,12 +745,12 @@
                 form.appendChild(box);
                 setTimeout(() => box.remove(), 8000);
             };
-            fetch('/', {
+            fetch('https://formsubmit.co/ajax/commerciale@gadgetart.it', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(new FormData(form)).toString()
-            }).then(r => {
-                if (!r.ok) throw new Error(r.status);
+                headers: { 'Accept': 'application/json' },
+                body: new FormData(form)
+            }).then(r => r.json().then(j => ({ r, j }))).then(({ r, j }) => {
+                if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || r.status);
                 form.reset(); show(true);
             }).catch(() => show(false)).finally(() => { btn.disabled = false; });
         }
